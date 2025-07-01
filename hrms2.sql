@@ -144,9 +144,9 @@ INSERT INTO employees (emp_id,employee_code, first_name, last_name, email, phone
 INSERT INTO departments (dept_id,name) VALUES
   (5,'Human Resources'),
   (6,'Engineering'),
-  (7'Sales'),
-  (8'Finance'),
-  (9'Marketing');
+  (7,'Sales'),
+  (8,'Finance'),
+  (9,'Marketing');
 
 INSERT INTO attendance (attendance_id,emp_id, date, clock_in, clock_out, status) VALUES
   (8,1,'2025-06-01','09:00','17:00','Present'),
