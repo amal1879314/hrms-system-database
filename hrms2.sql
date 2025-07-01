@@ -19,7 +19,7 @@ CREATE TABLE employees (
   dob DATE,
   address VARCHAR(100) NOT NULL,
   gender VARCHAR(6) CHECK (gender IN ('male','female','other')),
-  marital_status VARCHAR(8) CHECK (marital_status IN ('married','unmarried')),
+  marital_status VARCHAR(10) CHECK (marital_status IN ('married','unmarried')),
   emergency_number VARCHAR(15),
   hire_date DATE,
   dept_id INT REFERENCES departments(dept_id),
