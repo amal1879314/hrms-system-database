@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Departments</title>
+    <link rel="stylesheet" href="{{ request.url_for('static', path='employees.css') }}">
+</head>
+<body>
+    <!-- Sidebar / Admin Panel -->
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <ul>
+            <li><a href="{{ request.url_for('profile') }}">Dashboard</a></li>
+            <li><a href="/employees" class="active">Employees</a></li>
+            <li><a href="/departments">Departments</a></li>
+            <li><a href="#">Attendance</a></li>
+            <li><a href="#">Leave Requests</a></li>
+            <li><a href="#">Payrolls</a></li>
+            <li><a href="#">New Hires</a></li>
+            <br>
+            <li><a href="{{ request.url_for('auth.login') }}">Log Out</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+        <div class="main-content">
+            <h2>Departments</h2>
+
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 15px;">
+                <form action="/departments/add" method="post">
+                    <button type="submit">Add Department</button>
+                </form>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Department Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for dept in departments %}
+                    <tr>
+                        <td>{{ dept.dept_id }}</td>
+                        <td>{{ dept.name }}</td>
+                        <td>
+                            <a href="/departments/edit/{{ dept.dept_id }}">Edit</a>
+                            <a href="/departments/delete/{{ dept.dept_id }}" onclick="return confirm('Are you sure you want to delete this department?')">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>
+            © 2025 HRMS Admin Panel | Version 1.0.0 |
+            <a href="#">Privacy Policy</a> |
+            <a href="#">Terms</a> |
+            <a href="#">Support</a>
+        </p>
+    </div>
+</body>
+</html>

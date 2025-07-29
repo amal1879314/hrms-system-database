@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="{{ request.url_for('static', path='login.css') }}">
+</head>
+<body>
+    <form method="POST" action="{{ request.url_for('signup_user') }}">
+        <h2 align="center">Sign Up</h2>
+
+        {% if error %}
+            <p style="color:red;">{{ error }}</p>
+        {% endif %}
+
+        <label>Name:</label>
+        <input type="text" name="name" required>
+
+        <label>Email:</label>
+        <input type="email" name="email" required>
+
+        <label>Password:</label>
+        <input type="password" name="password" required>
+
+        <label>Role:</label>
+        <select name="role" required>
+            <option value="" disabled selected>Select Role</option>
+            <option value="admin">Admin</option>
+            <option value="employee">Employee</option>
+        </select>
+
+        <button type="submit">Register</button>
+        <p>Already have an account? <a href="/login">Login</a></p>
+    </form>
+</body>
+</html>

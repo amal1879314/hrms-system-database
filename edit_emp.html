@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Employee</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='add_emp.css') }}">
+
+    <style>
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background-color: #2563eb;
+        }
+
+        .back-button {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .back-button a button {
+            background-color: #e5e7eb;
+            color: #1f2937;
+        }
+
+        .back-button a button:hover {
+            background-color: #d1d5db;
+        }
+    </style>
+</head>
+<body>
+    <form method="POST" action="/employee/{{ emp[0] }}/edit">
+
+        <h2>Edit Employee</h2>
+
+        <label>Employee Code</label>
+        <input type="text" name="employee_code" value="{{ emp[1] }}" required>
+
+        <label>First Name</label>
+        <input type="text" name="first_name" value="{{ emp[2] }}" required>
+
+        <label>Last Name</label>
+        <input type="text" name="last_name" value="{{ emp[3] }}" required>
+
+        <label>Email</label>
+        <input type="email" name="email" value="{{ emp[4] }}" required>
+
+        <label>Phone</label>
+        <input type="text" name="phone" value="{{ emp[5] }}">
+
+        <label>Date of Birth</label>
+        <input type="date" name="dob" value="{{ emp[6] }}">
+
+        <label>Address</label>
+        <input type="text" name="address" value="{{ emp[7] }}" required>
+
+        <label>Gender</label>
+        <select name="gender" required>
+            <option value="male" {{ 'selected' if emp[8] == 'male' else '' }}>Male</option>
+            <option value="female" {{ 'selected' if emp[8] == 'female' else '' }}>Female</option>
+            <option value="other" {{ 'selected' if emp[8] == 'other' else '' }}>Other</option>
+        </select>
+
+        <label>Marital Status</label>
+        <select name="marital_status" required>
+            <option value="married" {{ 'selected' if emp[9] == 'married' else '' }}>Married</option>
+            <option value="unmarried" {{ 'selected' if emp[9] == 'unmarried' else '' }}>Unmarried</option>
+        </select>
+
+        <label>Emergency Number</label>
+        <input type="text" name="emergency_number" value="{{ emp[10] }}">
+
+        <label>Hire Date</label>
+        <input type="date" name="hire_date" value="{{ emp[11] }}" required>
+
+        <label>Department</label>
+        <select name="dept_id" required>
+            {% for dept in departments %}
+                <option value="{{ dept.id }}" {{ 'selected' if dept.id == emp[12] else '' }}>{{ dept.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Position</label>
+        <select name="position_id" required>
+            {% for pos in positions %}
+                <option value="{{ pos.id }}" {{ 'selected' if pos.id == emp[13] else '' }}>{{ pos.title }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Manager</label>
+        <select name="manager_id">
+            <option value="">None</option>
+            {% for mgr in managers %}
+                <option value="{{ mgr.id }}" {{ 'selected' if mgr.id == emp[14] else '' }}>{{ mgr.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Role</label>
+        <select name="role" required>
+            <option value="Admin" {{ 'selected' if emp[15] == 'Admin' else '' }}>Admin</option>
+            <option value="HR_Manager" {{ 'selected' if emp[15] == 'HR_Manager' else '' }}>HR Manager</option>
+            <option value="Dept_Manager" {{ 'selected' if emp[15] == 'Dept_Manager' else '' }}>Department Manager</option>
+            <option value="Employee" {{ 'selected' if emp[15] == 'Employee' else '' }}>Employee</option>
+            <option value="Recruiter" {{ 'selected' if emp[15] == 'Recruiter' else '' }}>Recruiter</option>
+        </select>
+
+        <button type="submit">Update Employee</button>
+    </form>
+
+    <div class="back-button">
+    <a href="/employees">
+        <button type="button">Back to Employees</button>
+    </a>
+</div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!-- templates/view_emp.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Employee</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='add_emp.css') }}">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        .view-container {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 40px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 35px;
+            font-size: 28px;
+            color: #1f2937;
+        }
+
+        .field {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .field label {
+            font-weight: 600;
+            flex: 0 0 200px;
+            color: #334155;
+        }
+
+        .field span {
+            flex: 1;
+            background: #f1f5f9;
+            padding: 10px 14px;
+            border-radius: 6px;
+            color: #1e293b;
+        }
+
+        .back-button {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .back-button a button {
+            background-color: #e2e8f0;
+            color: #1f2937;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .back-button a button:hover {
+            background-color: #cbd5e1;
+        }
+    </style>
+</head>
+<body>
+    <div class="view-container">
+        <h2>Employee Details</h2>
+
+        {% for label, value in emp_data %}
+        <div class="field">
+            <label>{{ label }}</label>
+            <span>{{ value if value else '-' }}</span>
+        </div>
+        {% endfor %}
+
+        <div class="back-button">
+            <a href="/employees">
+                <button type="button">← Back to Employees</button>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

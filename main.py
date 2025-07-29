@@ -1,55 +1,43 @@
-import psycopg2
-from config import config
-from prettytable import from_db_cursor
+from fastapi import FastAPI, Request
+from fastapi.responses import RedirectResponse, HTMLResponse
+from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.sessions import SessionMiddleware
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
+from auth_routes import auth
 
-def connect():
-    params = config()
-    print("Connecting with params:", params)
-    conn = psycopg2.connect(**params)
-    print("Connection established!")
-    return conn
+app = FastAPI()
 
-def interactive_session(conn):
-    try:
-        cur = conn.cursor()
-        cur.execute("SELECT version();")
-        print("PostgreSQL version:", cur.fetchone()[0])
+# ✅ Include auth routes with or without prefix — choose only one
+app.include_router(auth)  # or app.include_router(auth, prefix="/auth", tags=["auth"])
 
-        while True:
-            cmd = input("\nSQL> ").strip()
-            if not cmd:
-                continue
-            if cmd.lower() in ('exit', 'quit'):
-                print("Exiting interactive session.")
-                break
+# Mount static directory
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
-            try:
-                cur.execute(cmd)
-                if cur.description:
-                    table = from_db_cursor(cur)
-                    print(table)
-                else:
-                    conn.commit()
-                    print(f"Query OK, {cur.rowcount} rows affected.")
-            except Exception as e:
-                print("Error executing command:", e)
-                conn.rollback()
+# Add session middleware
+app.add_middleware(SessionMiddleware, secret_key="your-secret-key")
 
-    finally:
-        cur.close()
-        print("Cursor closed")
+# Enable CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-def main():
-    conn = None
-    try:
-        conn = connect()
-        interactive_session(conn)
-    except Exception as e:
-        print("Error occurred:", e)
-    finally:
-        if conn:
-            conn.close()
-            print("Connection terminated")
+templates = Jinja2Templates(directory="templates")
 
-if __name__ == '__main__':
-    main()
+@app.get("/profile", response_class=HTMLResponse, name="profile")
+def profile(request: Request):
+    user = request.session.get("user")
+    if not user:
+        return RedirectResponse(url="/login")
+    return templates.TemplateResponse("profile.html", {"request": request, "user": user})
+
+@app.get("/", response_class=HTMLResponse, name="login")
+def home(request: Request):
+    return templates.TemplateResponse("login.html", {"request": request})
+
+  # adjust the filename
+

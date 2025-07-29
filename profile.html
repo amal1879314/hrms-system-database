@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ request.url_for('static', path='profile.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <ul>
+            <li><a href="{{ request.url_for('profile') }}">Dashboard</a></li>
+            <li><a href="{{ request.url_for('employees_page') }}">Employees</a></li>
+
+            <li><a href="#">Departments</a></li>
+            <li><a href="#">Projects</a></li>
+            <li><a href="#">Attendance</a></li>
+            <li><a href="#">Leave Requests</a></li>
+            <li><a href="#">Payrolls</a></li>
+            <li><a href="#">New Hires</a></li>
+            <br>
+            <li><button id="logoutBtn">Log Out</button></li>
+        </ul>
+    </div>
+
+    <div class="main">
+        <div class="main-content">
+            <h1>Welcome {{ user }}</h1>
+        </div>
+
+        <div class="right-column">
+            <div class="card">
+                <h3>Total Employees</h3>
+                <p>{{ total_employees }}</p>
+            </div>
+            <div class="card">
+                <h3>Total Departments</h3>
+                <p>{{ total_departments }}</p>
+            </div>
+            <div class="card">
+                <h3>Active Projects</h3>
+                <p>{{ active_projects }}</p>
+            </div>
+            <div class="card">
+                <h3>Today's Attendance Summary</h3>
+                <p>Present: {{ present_today }}</p>
+                <p>Absent: {{ absent_today }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>
+            © 2025 HRMS Admin Panel | Version 1.0.0 |
+            <a href="#">Privacy Policy</a> |
+            <a href="#">Terms</a> |
+            <a href="#">Support</a>
+        </p>
+    </div>
+
+    <script>
+        document.getElementById("logoutBtn").addEventListener("click", function () {
+            axios.post('/api/logout')
+                .then(response => {
+                    alert(response.data.message);
+                    window.location.href = "/login";
+                })
+                .catch(error => {
+                    console.error("Logout failed:", error);
+                    alert("Logout failed.");
+                });
+        });
+    </script>
+</body>
+</html>
